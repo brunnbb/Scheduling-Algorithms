@@ -17,7 +17,6 @@ public class Task {
     private int id;
     private int activations = 0;
     private boolean processed = false;
-
     private List<Double> watList = new ArrayList<Double>();
     private List<Double> tatList = new ArrayList<Double>();
     private int numberOfLostDealines;
@@ -134,7 +133,7 @@ public class Task {
 
     // Method to calculate relative deadlines for sorting tasks
     public void setRelativeDeadline(int time) {
-        this.relativeDeadline = ((activations * deadline) - time - 1);
+        this.relativeDeadline = ((activations * deadline) - time);
     }
 
     public int getComputationTimeLeft() {

@@ -51,6 +51,7 @@ public class Scheduler {
             addToReadyQueue(i);
             organizeReadyQueue(schedulerName);
             addToCpu();
+            organizeReadyQueue(schedulerName);
             if (cpu[0] != null) {
                 compute(i);
                 simulation.updateCpuUtilization();
@@ -90,7 +91,8 @@ public class Scheduler {
                 break;
             case "edf":
                 // Sort tasks based on relative deadline
-                Collections.sort(readyQueue, Comparator.comparingInt(Task::getRelativeDeadline));
+                Collections.sort(readyQueue, Comparator.comparingInt(Task::getRelativeDeadline)
+                        .thenComparing(Comparator.comparingInt(Task::getDeadline).reversed()));
                 break;
             default:
                 break;
@@ -127,7 +129,7 @@ public class Scheduler {
         cpu[0].getTatList().set(cpu[0].getWatList().size() - 1,
                 (cpu[0].getTatList().get(cpu[0].getTatList().size() - 1) + 1));
         // Update relative deadline of the processing task
-        cpu[0].setRelativeDeadline(time);
+        cpu[0].setRelativeDeadline(time + 1);
         // Task in cpu processed, for checking starvation
         cpu[0].setProcessed();
         // Advance waiting and turnaround times of other tasks, and their relative
@@ -139,7 +141,7 @@ public class Scheduler {
                         (task.getWatList().get(task.getWatList().size() - 1)) + 1);
                 task.getTatList().set(task.getTatList().size() - 1,
                         (task.getTatList().get(task.getTatList().size() - 1) + 1));
-                task.setRelativeDeadline(time);
+                task.setRelativeDeadline(time + 1);
             }
         }
     }
@@ -154,7 +156,6 @@ public class Scheduler {
                     cpu[0].setComputationTimeLeft(cpu[0].getComputationTime());
                 } else {
                     cpu[0].setQuantumLeft(cpu[0].getQuantum());
-                    // Problem here
                     readyQueue.add(cpu[0]);
                 }
                 cpu[0] = null;
