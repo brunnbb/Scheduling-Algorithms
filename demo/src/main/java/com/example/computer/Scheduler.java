@@ -191,23 +191,19 @@ public class Scheduler {
 
     // Method to log final calculations
     public void completeLog() {
-        double totalWat = 0;
-        double totalTat = 0;
+        double systemTotalWat = 0;
+        double systemTotalTat = 0;
 
         for (Task task : tasks) {
-            for (Double i : task.getWatList()) {
-                totalWat += i;
-            }
-            for (Double t : task.getTatList()) {
-                totalTat += t;
-            }
+            systemTotalWat += task.getAvgWat();
+            systemTotalTat += task.getAvgTat();
         }
 
         // Display relevant system-wide data
         System.out.println("CPU Utilization: " +
                 ((simulation.getCpuUtilization() / simulation.getSimulationTime()) * 100) + "%");
-        System.out.println("System Average Waiting Time: " + (totalWat / simulation.getTasksNumber()));
-        System.out.println("System Average Turnaround Time: " + (totalTat / simulation.getTasksNumber()));
+        System.out.println("System Average Waiting Time: " + (systemTotalWat / simulation.getTasksNumber()));
+        System.out.println("System Average Turnaround Time: " + (systemTotalTat / simulation.getTasksNumber()));
 
         // Check for starvation
         for (Task task : tasks) {

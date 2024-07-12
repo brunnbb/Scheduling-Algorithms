@@ -143,6 +143,24 @@ public class Task {
         this.quantumLeft = quantumLeft;
     }
 
+    public double getAvgWat() {
+        double totalWat = 0;
+        for (Double y : watList) {
+            totalWat += y;
+        }
+
+        return (totalWat) / activations;
+    }
+
+    public double getAvgTat() {
+        double totalTat = 0;
+        for (Double y : tatList) {
+            totalTat += y;
+        }
+
+        return (totalTat) / activations;
+    }
+
     public String data() {
         double minWt = watList.get(0), maxWt = watList.get(0), totalWt = 0, totalTat = 0;
         for (Double x : watList) {
@@ -157,9 +175,10 @@ public class Task {
         for (Double y : tatList) {
             totalTat += y;
         }
+
         return "Task " + id + " - Activations: " + activations + " - Total WT: " + totalWt + " - Min WT: " + minWt
-                + " - Max Wt: " + maxWt + " - Avg Wt: " + ((totalWt) / activations) + " - Total TAT: " + totalTat
-                + " - Avg TAT: " + ((totalTat) / activations);
+                + " - Max Wt: " + maxWt + " - Avg Wt: " + getAvgWat() + " - Total TAT: " + totalTat
+                + " - Avg TAT: " + getAvgTat();
     }
 
     @Override
