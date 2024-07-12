@@ -125,6 +125,8 @@ public class Scheduler {
                 (cpu[0].getTatList().get(cpu[0].getTatList().size() - 1) + 1));
         // Update relative deadline of the processing task
         cpu[0].setRelativeDeadline(time);
+        // Task in cpu processed, for checking starvation
+        cpu[0].setProcessed();
         // Advance waiting and turnaround times of other tasks, and their relative
         // deadlines
         for (Task task : readyQueue) {
@@ -207,7 +209,7 @@ public class Scheduler {
 
         // Check for starvation
         for (Task task : tasks) {
-            if (task.getActivations() == 0) {
+            if (task.isProcessed() == false) {
                 System.out.println(task.toString() + " was starved");
             }
         }

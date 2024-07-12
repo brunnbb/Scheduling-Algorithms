@@ -16,6 +16,8 @@ public class Task {
     // Variables to help with calculations
     private int id;
     private int activations = 0;
+    private boolean processed = false;
+
     private List<Double> watList = new ArrayList<Double>();
     private List<Double> tatList = new ArrayList<Double>();
     private int numberOfLostDealines;
@@ -92,6 +94,14 @@ public class Task {
 
     public void setActivations(int activations) {
         this.activations = activations;
+    }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed() {
+        this.processed = true;
     }
 
     public List<Double> getWatList() {
