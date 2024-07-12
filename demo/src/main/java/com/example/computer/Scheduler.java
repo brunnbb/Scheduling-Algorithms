@@ -56,7 +56,6 @@ public class Scheduler {
                 simulation.updateCpuUtilization();
             }
             currentStatus(i);
-            removeFromCpu(schedulerName);
         }
         completeLog();
 
@@ -74,6 +73,10 @@ public class Scheduler {
                     task.getWatList().add(0.0);
                     task.getTatList().add(0.0);
                 }
+            }
+            // This method goes here to respect the fcfs principle and avoid inversion
+            if (task == cpu[0]) {
+                removeFromCpu(schedulerName);
             }
         }
     }
@@ -147,9 +150,11 @@ public class Scheduler {
 
             if (cpu[0].getComputationTimeLeft() == 0 || (schedulerName.equals("rr") && cpu[0].getQuantumLeft() == 0)) {
                 if (cpu[0].getComputationTimeLeft() == 0) {
+                    cpu[0].setQuantumLeft(cpu[0].getQuantum());
                     cpu[0].setComputationTimeLeft(cpu[0].getComputationTime());
                 } else {
                     cpu[0].setQuantumLeft(cpu[0].getQuantum());
+                    // Problem here
                     readyQueue.add(cpu[0]);
                 }
                 cpu[0] = null;
@@ -201,11 +206,14 @@ public class Scheduler {
             systemTotalTat += task.getAvgTat();
         }
 
+        double avgCpuUse = Math.round(simulation.getCpuUtilization() / simulation.getSimulationTime() * 10000) / 100.0;
+        double systemAvgWat = Math.round((systemTotalWat / simulation.getTasksNumber()) * 100.0) / 100.0;
+        double systemAvgTat = Math.round(systemTotalTat / simulation.getTasksNumber() * 100.0) / 100.0;
+
         // Display relevant system-wide data
-        System.out.println("CPU Utilization: " +
-                ((simulation.getCpuUtilization() / simulation.getSimulationTime()) * 100) + "%");
-        System.out.println("System Average Waiting Time: " + (systemTotalWat / simulation.getTasksNumber()));
-        System.out.println("System Average Turnaround Time: " + (systemTotalTat / simulation.getTasksNumber()));
+        System.out.println("CPU Utilization: " + (avgCpuUse) + "%");
+        System.out.println("System Average Turnaround Time: " + systemAvgTat);
+        System.out.println("System Average Waiting Time: " + systemAvgWat);
 
         // Check for starvation
         for (Task task : tasks) {

@@ -187,8 +187,8 @@ public class Task {
         }
 
         return "Task " + id + " - Activations: " + activations + " - Total WT: " + totalWt + " - Min WT: " + minWt
-                + " - Max Wt: " + maxWt + " - Avg Wt: " + getAvgWat() + " - Total TAT: " + totalTat
-                + " - Avg TAT: " + getAvgTat();
+                + " - Max Wt: " + maxWt + " - Avg Wt: " + Math.round(getAvgWat() * 100.0) / 100.0 + " - Total TAT: "
+                + totalTat + " - Avg TAT: " + Math.round(getAvgTat() * 100.0) / 100.0;
     }
 
     @Override
