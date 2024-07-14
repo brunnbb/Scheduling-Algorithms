@@ -170,6 +170,7 @@ public class Task {
         return (totalTat) / activations;
     }
 
+    // Returns relevant data of a task
     public String data() {
         double minWt = watList.get(0), maxWt = watList.get(0), totalWt = 0, totalTat = 0;
         for (Double x : watList) {
