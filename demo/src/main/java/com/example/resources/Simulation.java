@@ -87,10 +87,10 @@ public class Simulation {
 
             if (u > feasible) {
                 System.out.println("Warning, this set is not scalable to rm");
-                System.out.println(u + " > " + feasible);
+                System.out.println("U = " + u + " > " + feasible);
             } else {
                 System.out.println("This set is scalable to rm");
-                System.out.println(u + " <= " + feasible);
+                System.out.println("U = " + u + " <= " + feasible);
             }
         }
 
@@ -98,10 +98,10 @@ public class Simulation {
 
             if (u > 1) {
                 System.out.println("Warning, this set is not scalable to edf");
-                System.out.println(u + " > 1");
+                System.out.println("U = " + u + " > 1");
             } else {
                 System.out.println("This set is scalable to edf");
-                System.out.println(u + " <= 1");
+                System.out.println("U = " + u + " <= 1");
             }
         }
     }

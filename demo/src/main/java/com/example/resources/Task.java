@@ -13,14 +13,13 @@ public class Task {
     private int periodTime;
     private int quantum;
     private int deadline;
-    // Variables to help with calculations
     private int id;
     private int activations = 0;
     private boolean processed = false;
     private List<Double> watList = new ArrayList<Double>();
     private List<Double> tatList = new ArrayList<Double>();
     private int numberOfLostDealines;
-    private int relativeDeadline;
+    private int absoluteDeadline;
     private int computationTimeLeft;
     private int quantumLeft;
 
@@ -127,13 +126,12 @@ public class Task {
         this.numberOfLostDealines = numberOfLostDealines;
     }
 
-    public int getRelativeDeadline() {
-        return relativeDeadline;
+    public int getAbsoluteDeadline() {
+        return absoluteDeadline;
     }
 
-    // Method to calculate relative deadlines for sorting tasks
-    public void setRelativeDeadline(int time) {
-        this.relativeDeadline = ((activations * deadline) - time);
+    public void setAbsoluteDeadline(int absoluteDeadline) {
+        this.absoluteDeadline = offset + (activations * deadline);
     }
 
     public int getComputationTimeLeft() {
@@ -170,7 +168,6 @@ public class Task {
         return (totalTat) / activations;
     }
 
-    // Returns relevant data of a task
     public String data() {
         double minWt = watList.get(0), maxWt = watList.get(0), totalWt = 0, totalTat = 0;
         for (Double x : watList) {

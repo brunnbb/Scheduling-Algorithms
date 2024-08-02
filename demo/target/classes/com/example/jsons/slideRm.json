@@ -1,5 +1,5 @@
 {
-  "simulation_time": 14,
+  "simulation_time": 36,
   "scheduler_name": "rm",
   "tasks_number": 3,
   "tasks": [
