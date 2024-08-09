@@ -41,11 +41,11 @@ public class Scheduler {
 
         for (int i = 0; i < simulation.getSimulationTime(); i++) {
             addToReadyQueue(i);
-            organizeReadyQueue(schedulerName);
+            organizeReadyQueue();
             addToCpu();
-            organizeReadyQueue(schedulerName);
+            organizeReadyQueue();
             if (cpu[0] != null) {
-                compute(i);
+                compute();
                 simulation.updateCpuUtilization();
             }
             currentStatus(i);
@@ -65,13 +65,13 @@ public class Scheduler {
                     task.setActivations(task.getActivations() + 1);
                     task.getWatList().add(0.0);
                     task.getTatList().add(0.0);
-                    task.setAbsoluteDeadline(time);
+                    task.setAbsoluteDeadline();
                 }
             }
         }
     }
 
-    public void organizeReadyQueue(String schedulerName) {
+    public void organizeReadyQueue() {
         switch (schedulerName) {
             case "rm":
                 Collections.sort(readyQueue, Comparator.comparingInt(Task::getPeriodTime));
@@ -104,18 +104,18 @@ public class Scheduler {
                 || (schedulerName.equals("rr") && cpu[0].getQuantumLeft() == 0);
     }
 
-    public void compute(int time) {
+    public void compute() {
+        int lastTatItemCpu = cpu[0].getTatList().size() - 1;
         cpu[0].setComputationTimeLeft(cpu[0].getComputationTimeLeft() - 1);
         cpu[0].setQuantumLeft(cpu[0].getQuantumLeft() - 1);
-        cpu[0].getTatList().set(cpu[0].getWatList().size() - 1,
-                (cpu[0].getTatList().get(cpu[0].getTatList().size() - 1) + 1));
+        cpu[0].getTatList().set(lastTatItemCpu, (cpu[0].getTatList().get(lastTatItemCpu) + 1));
         cpu[0].setProcessed();
         for (Task task : readyQueue) {
             if (task != cpu[0]) {
-                task.getWatList().set(task.getWatList().size() - 1,
-                        (task.getWatList().get(task.getWatList().size() - 1)) + 1);
-                task.getTatList().set(task.getTatList().size() - 1,
-                        (task.getTatList().get(task.getTatList().size() - 1) + 1));
+                int lastWatItemTask = task.getTatList().size() - 1;
+                int lastTatItemTask = task.getWatList().size() - 1;
+                task.getWatList().set(lastWatItemTask, (task.getWatList().get(lastWatItemTask)) + 1);
+                task.getTatList().set(lastTatItemTask, (task.getTatList().get(lastTatItemTask) + 1));
             }
         }
     }

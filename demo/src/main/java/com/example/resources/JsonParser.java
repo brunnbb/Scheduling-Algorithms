@@ -7,13 +7,11 @@ import java.io.IOException;
 
 public class JsonParser {
 
-    private String filePath;
+    public JsonParser() {
 
-    public JsonParser(String filePath) {
-        this.filePath = filePath;
     }
 
-    public Simulation readJson() {
+    public Simulation readJson(String filePath) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {

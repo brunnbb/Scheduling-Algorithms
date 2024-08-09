@@ -130,7 +130,7 @@ public class Task {
         return absoluteDeadline;
     }
 
-    public void setAbsoluteDeadline(int absoluteDeadline) {
+    public void setAbsoluteDeadline() {
         this.absoluteDeadline = offset + (activations * deadline);
     }
 

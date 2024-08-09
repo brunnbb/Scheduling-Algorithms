@@ -5,8 +5,8 @@ import com.example.resources.*;
 
 public class Main {
     public static void main(String[] args) {
-        JsonParser jsonParser = new JsonParser("demo\\src\\main\\java\\com\\example\\jsons\\slideFailedRm.json");
-        Simulation simulation = jsonParser.readJson();
+        JsonParser jsonParser = new JsonParser();
+        Simulation simulation = jsonParser.readJson("demo\\src\\main\\java\\com\\example\\jsons\\slideFailedRm.json");
         Scheduler scheduler = new Scheduler(simulation);
         scheduler.start();
     }
